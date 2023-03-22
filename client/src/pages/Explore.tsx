@@ -71,7 +71,7 @@ const Explore: React.FC = () => {
   return (
     <div className='h-screen flex items-center justify-center'>
       <div className='flex items-center gap-[120px]'>
-        <form className='flex flex-col gap-10 bg-darkblue-main w-[540px] px-[70px] py-[60px] border border-lightgreen' onClick={(e) => handleSearch(e)}>
+        <form className='flex flex-col gap-10 bg-darkblue-main w-[540px] px-[70px] py-[60px] border border-lightgreen'>
           <h2 className='text-[36px] font-bold text-white mx-auto'>Explore</h2>
           <div>
             <span className='text-gray-300'>
@@ -93,24 +93,10 @@ const Explore: React.FC = () => {
             </div>
           </div>
           <div className='flex flex-col gap-6'>
-            {
-              searchMethod === "title" ? (
-                <div className='flex justify-between'>
-                  <span className='text-[24px] text-white'>Book title</span>
-                  <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={bookTitleRef} />
-                </div>
-              ) : searchMethod === "author" ? (
-                <div className='flex justify-between'>
-                  <span className='text-[24px] text-white'>Author</span>
-                  <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={bookAuthorRef} />
-                </div>
-              ) : (
-                <div className='flex justify-between'>
-                  <span className='text-[24px] text-white'>Free word</span>
-                  <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={bookFreewordRef} />
-                </div>
-              )
-            }
+            <div className='flex justify-between'>
+              <span className='text-[24px] text-white'>{searchMethod === "title" ? "Book title" : searchMethod === "author" ? "Author" : "Free word"}</span>
+              <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={searchMethod === "title" ? bookTitleRef : searchMethod === "author" ? bookAuthorRef : bookFreewordRef} />
+            </div>
           </div>
           <button
             type='button'
