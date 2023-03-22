@@ -28,7 +28,7 @@ const DetailModal: React.FC<detailContent> = ({ volumeInfo, setShowDetail }) => 
           </div>
         </div>
       </div>
-      <div className='absolute inset-0 bg-[rgba(53,53,53,0.43)] z-20'></div>
+      <div className='absolute inset-0 bg-[rgba(53,53,53,0.43)] z-20' onClick={() => setShowDetail(false)}></div>
     </>
   )
 }

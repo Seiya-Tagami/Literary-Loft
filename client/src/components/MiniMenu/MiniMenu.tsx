@@ -34,7 +34,7 @@ const MiniMenu: React.FC = () => {
   return (
     <div className='fixed -bottom-16 -left-16'>
       <div className={`miniMenu ${active && 'active'}`} ref={buttonRef}>
-        <div className="miniMenu__toggle" onClick={() => setActive(!active)} >
+        <div className="miniMenu__toggle hover:scale-105 duration-300" onClick={() => setActive(!active)} >
           <AddIcon className='scale-[200%]' />
         </div>
         <li>

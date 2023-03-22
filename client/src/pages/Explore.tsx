@@ -71,22 +71,22 @@ const Explore: React.FC = () => {
   return (
     <div className='h-screen flex items-center justify-center'>
       <div className='flex items-center gap-[120px]'>
-        <form className='flex flex-col gap-10 bg-darkblue-main w-[540px] px-[70px] py-[60px] border border-lightgreen'>
+        <form className='flex flex-col gap-10 bg-darkblue-main w-[540px] px-[70px] py-[60px] border border-lightgreen' onClick={(e) => handleSearch(e)}>
           <h2 className='text-[36px] font-bold text-white mx-auto'>Explore</h2>
           <div>
             <span className='text-gray-300'>
               🚀Select the search method
             </span>
-            <div className='flex gap-4 flex-wrap mt-2'>
-              <button className={`text-darkblue-main font-semibold px-3 py2 bg-orange-300 rounded ${searchMethod === "title" && "border-2 border-lightgreen"}`} onClick={(e) => handleSetGenre(e, 'title')}>
+            <div className='flex gap-4 flex-wrap mt-2 text-darkblue-main'>
+              <button className={`bg-green-100 font-semibold px-3 py2 ${searchMethod === "title" && "!bg-lightgreen scale-110 duration-300"}`} onClick={(e) => handleSetGenre(e, 'title')}>
                 <ArrowRightIcon />
                 Search with book title
               </button>
-              <button className={`text-darkblue-main font-semibold px-3 py2 bg-blue-300 rounded ${searchMethod === "author" && "border-2 border-lightgreen"}`} onClick={(e) => handleSetGenre(e, 'author')}>
+              <button className={`bg-green-100 font-semibold px-3 py2 ${searchMethod === "author" && "!bg-lightgreen scale-110 duration-300"}`} onClick={(e) => handleSetGenre(e, 'author')}>
                 <ArrowRightIcon />
                 Search with author
               </button>
-              <button className={`text-darkblue-main font-semibold px-3 py2 bg-yellow-300 rounded ${searchMethod === "free" && "border-2 border-lightgreen"}`} onClick={(e) => handleSetGenre(e, 'free')}>
+              <button className={`bg-green-100 font-semibold px-3 py2 ${searchMethod === "free" && "!bg-lightgreen scale-110 duration-300"}`} onClick={(e) => handleSetGenre(e, 'free')}>
                 <ArrowRightIcon />
                 Search with free word
               </button>
@@ -97,24 +97,24 @@ const Explore: React.FC = () => {
               searchMethod === "title" ? (
                 <div className='flex justify-between'>
                   <span className='text-[24px] text-white'>Book title</span>
-                  <input type="text" className='bg-orange-300 rounded px-2 py-1 focus:outline-none' ref={bookTitleRef} />
+                  <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={bookTitleRef} />
                 </div>
               ) : searchMethod === "author" ? (
                 <div className='flex justify-between'>
                   <span className='text-[24px] text-white'>Author</span>
-                  <input type="text" className='bg-blue-300 rounded px-2 py-1 focus:outline-none' ref={bookAuthorRef} />
+                  <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={bookAuthorRef} />
                 </div>
               ) : (
                 <div className='flex justify-between'>
                   <span className='text-[24px] text-white'>Free word</span>
-                  <input type="text" className='bg-yellow-300 rounded px-2 py-1 focus:outline-none' ref={bookFreewordRef} />
+                  <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={bookFreewordRef} />
                 </div>
               )
             }
           </div>
           <button
             type='button'
-            className='text-darkblue-main bg-lightgreen w-fit mx-auto text-[32px] px-3 py-2'
+            className='text-darkblue-main bg-white w-fit mx-auto text-[32px] px-3 py-2 font-bold'
             onClick={(e) => handleSearch(e)}
           >
             Search</button>
@@ -126,7 +126,7 @@ const Explore: React.FC = () => {
               <div className='flex-1 flex flex-col gap-4'>
                 <div>
                   <h3 className='text-xl font-bold'>{book.volumeInfo.title}</h3>
-                  <span className='block mt-1'>著者：{book.volumeInfo.authors ? book.volumeInfo.authors : "unknown"}</span>
+                  <span className='block mt-1'>著者：{book.volumeInfo.authors ? `${book.volumeInfo.authors[0]}${book.volumeInfo.authors.length > 1 ? "ほか" : ""}` : "unknown"}</span>
                 </div>
                 <p className='text-gray-400'>{book.volumeInfo.description && book.volumeInfo.description.substring(0, 220)}{book.volumeInfo.description && book.volumeInfo.description.length > 250 && "..."}</p>
                 <div className='flex gap-3'>
