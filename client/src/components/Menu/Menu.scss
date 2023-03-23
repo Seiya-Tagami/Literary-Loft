@@ -1,4 +1,4 @@
-.miniMenu {
+.menu {
   position: relative;
   display: flex;
   justify-content: center;
@@ -27,7 +27,7 @@
       transition: 0.5s;
 
       &:hover {
-        box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.308);
+        background: #baceca;
       }
     }
   }
@@ -70,7 +70,7 @@
       }
     }
 
-    & .miniMenu__toggle {
+    & .menu__toggle {
       transform: rotate(315deg);
     }
   }

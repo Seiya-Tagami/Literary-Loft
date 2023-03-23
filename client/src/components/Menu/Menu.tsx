@@ -3,24 +3,25 @@ import AddIcon from '@mui/icons-material/Add';
 import ExploreIcon from '@mui/icons-material/Explore';
 import SortIcon from '@mui/icons-material/Sort';
 import BookmarkRemoveIcon from '@mui/icons-material/BookmarkRemove';
-import "./MiniMenu.scss"
+import "./Menu.scss"
 import { Link } from 'react-router-dom';
 
 
-const MiniMenu: React.FC = () => {
+const Menu: React.FC = () => {
   const [active, setActive] = useState(false);
   const buttonRef = useRef<HTMLDivElement>(null)
 
+  // Menuの外側を押した時の処理
   useEffect(() => {
     const el = buttonRef.current;
     if (!el) return;
 
     const handleClickOutsideOfEl = (e: MouseEvent) => {
       if (!el?.contains(e.target as Node)) {
-        console.log('外側です。')
+        console.log('outside')
         setActive(false)
       } else {
-        console.log('内側です。')
+        console.log('inside')
       }
     }
 
@@ -33,8 +34,8 @@ const MiniMenu: React.FC = () => {
 
   return (
     <div className='fixed -bottom-16 -left-16'>
-      <div className={`miniMenu ${active && 'active'}`} ref={buttonRef}>
-        <div className="miniMenu__toggle hover:scale-105 duration-300" onClick={() => setActive(!active)} >
+      <div className={`menu ${active && 'active'}`} ref={buttonRef}>
+        <div className="menu__toggle" onClick={() => setActive(!active)} >
           <AddIcon className='scale-[200%]' />
         </div>
         <li>
@@ -51,4 +52,4 @@ const MiniMenu: React.FC = () => {
   )
 }
 
-export default MiniMenu
+export default Menu

@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 import DetailModal from "../components/DetailModal"
 import { Book } from '../types/types';
-import { TrendingUpRounded } from '@mui/icons-material';
 import { CircularProgress } from '@mui/material';
 
 
@@ -14,9 +13,7 @@ const Explore: React.FC = () => {
   const [detailContent, setDetailContent] = useState<Book | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const bookTitleRef = useRef<HTMLInputElement>(null)
-  const bookAuthorRef = useRef<HTMLInputElement>(null)
-  const bookFreewordRef = useRef<HTMLInputElement>(null)
+  const searchRef = useRef<HTMLInputElement>(null)
 
   const handleSetGenre = (e: React.MouseEvent, methodType: string) => {
     e.preventDefault()
@@ -33,26 +30,16 @@ const Explore: React.FC = () => {
     e.preventDefault()
 
     // validation
-    if (searchMethod === "title" && bookTitleRef.current?.value.length === 0) {
-      alert('文字を入力してください')
-      return
-    }
-
-    if (searchMethod === "author" && bookAuthorRef.current?.value.length === 0) {
-      alert('文字を入力してください')
-      return
-    }
-
-    if (searchMethod === "free" && bookFreewordRef.current?.value.length === 0) {
+    if (searchRef.current?.value.length === 0) {
       alert('文字を入力してください')
       return
     }
 
     const fetchGoogleBooksData = async () => {
       setLoading(true)
-      const titleQuery = `intitle:${bookTitleRef.current?.value}`
-      const authorQuery = `inauthor:${bookAuthorRef.current?.value}`
-      const freewordQuery = `${bookFreewordRef.current?.value}`
+      const titleQuery = `intitle:${searchRef.current?.value}`
+      const authorQuery = `inauthor:${searchRef.current?.value}`
+      const freewordQuery = `${searchRef.current?.value}`
 
       const endpointURL = `https://www.googleapis.com/books/v1/volumes?q=
       ${searchMethod === "title" ? titleQuery :
@@ -95,7 +82,7 @@ const Explore: React.FC = () => {
           <div className='flex flex-col gap-6'>
             <div className='flex justify-between'>
               <span className='text-[24px] text-white'>{searchMethod === "title" ? "Book title" : searchMethod === "author" ? "Author" : "Free word"}</span>
-              <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={searchMethod === "title" ? bookTitleRef : searchMethod === "author" ? bookAuthorRef : bookFreewordRef} />
+              <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={searchRef} />
             </div>
           </div>
           <button

@@ -1,6 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom"
 import Header from "./components/Header"
-import MiniMenu from "./components/MiniMenu/MiniMenu"
+import Menu from "./components/Menu/Menu"
 import Explore from "./pages/Explore"
 import Home from "./pages/Home"
 
@@ -14,7 +14,7 @@ function App() {
           <Route path="/explore" element={<Explore />} />
         </Routes>
       </main>
-      <MiniMenu />
+      <Menu />
     </BrowserRouter>
   )
 }
