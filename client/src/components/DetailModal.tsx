@@ -12,10 +12,9 @@ const DetailModal: React.FC<detailContent> = ({ volumeInfo, setShowDetail }) => 
             <img src={volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : "/noimage.png"} alt="" className='w-[120px] h-[150px] object-cover' />
             <div className='flex flex-col justify-between'>
               <div>
-                <h3 className='text-xl font-bold'>{volumeInfo.title}</h3>
+                <h3 className='text-2xl font-bold'>{volumeInfo.title}</h3>
                 <span className='block mt-1'>著者：{volumeInfo.authors ? volumeInfo.authors : "unknown"} {volumeInfo.publishedDate}</span>
               </div>
-              <button className='w-fit bg-lightgreen text-darkblue-sub font-bold px-3 py-2 rounded-md'>Register</button>
             </div>
             <button className='block w-fit h-fit ml-auto border border-lightgreen rounded-full p-3 bg-darkblue-sub hover:bg-darkblue-main' onClick={() => setShowDetail(false)}>
               <CloseIcon />

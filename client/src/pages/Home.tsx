@@ -1,5 +1,4 @@
 import React from 'react'
-import MiniMenu from '../components/Menu/Menu'
 import OneAreaOfBookshelf from '../components/OneAreaOfBookshelf'
 import { labels } from "../constants/index"
 

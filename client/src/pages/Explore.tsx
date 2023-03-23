@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 import DetailModal from "../components/DetailModal"
+import { searchMethods } from '../constants';
 import { Book } from '../types/types';
 import { CircularProgress } from '@mui/material';
 
@@ -64,19 +65,13 @@ const Explore: React.FC = () => {
             <span className='text-gray-300'>
               🚀Select the search method
             </span>
-            <div className='flex gap-4 flex-wrap mt-2 text-darkblue-main'>
-              <button className={`bg-green-100 font-semibold px-3 py2 ${searchMethod === "title" && "!bg-lightgreen scale-110 duration-300"}`} onClick={(e) => handleSetGenre(e, 'title')}>
-                <ArrowRightIcon />
-                Search with book title
-              </button>
-              <button className={`bg-green-100 font-semibold px-3 py2 ${searchMethod === "author" && "!bg-lightgreen scale-110 duration-300"}`} onClick={(e) => handleSetGenre(e, 'author')}>
-                <ArrowRightIcon />
-                Search with author
-              </button>
-              <button className={`bg-green-100 font-semibold px-3 py2 ${searchMethod === "free" && "!bg-lightgreen scale-110 duration-300"}`} onClick={(e) => handleSetGenre(e, 'free')}>
-                <ArrowRightIcon />
-                Search with free word
-              </button>
+            <div className='flex gap-4 flex-col w-[210px] mt-2 text-darkblue-main'>
+              {searchMethods.map(method => (
+                <button className={`bg-green-100 font-semibold px-3 ${searchMethod === `${method.method}` && "!bg-lightgreen scale-110 duration-300"}`} onClick={(e) => handleSetGenre(e, `${method.method}`)} key={method.title}>
+                  <ArrowRightIcon />
+                  {method.title}
+                </button>
+              ))}
             </div>
           </div>
           <div className='flex flex-col gap-6'>
@@ -92,7 +87,7 @@ const Explore: React.FC = () => {
           >
             Search</button>
         </form>
-        <div className={`w-[660px] h-[720px] p-4 flex flex-col gap-10 overflow-y-auto scrollbar scrollbar-thumb-slate-400 scrollbar-track-slate-700 ${!books.length && 'justify-center'} relative`}>
+        <div className={`w-[660px] h-[720px] px-4 py-10 flex flex-col gap-10 overflow-y-auto scrollbar scrollbar-thumb-slate-400 scrollbar-track-slate-700 ${!books.length && 'justify-center'} relative`}>
           {books.length ? (books.map(book => (
             <div className='w-full p-4 text-white flex items-center gap-6  bg-darkblue-main border-l-4 border-lightgreen' key={book.id}>
               <img src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : "/noimage.png"} alt="" className='w-[120px] h-[150px] object-cover' />
@@ -101,7 +96,7 @@ const Explore: React.FC = () => {
                   <h3 className='text-xl font-bold'>{book.volumeInfo.title}</h3>
                   <span className='block mt-1'>著者：{book.volumeInfo.authors ? `${book.volumeInfo.authors[0]}${book.volumeInfo.authors.length > 1 ? "ほか" : ""}` : "unknown"}</span>
                 </div>
-                <p className='text-gray-400'>{book.volumeInfo.description && book.volumeInfo.description.substring(0, 220)}{book.volumeInfo.description && book.volumeInfo.description.length > 250 && "..."}</p>
+                <p className='text-gray-400'>{book.volumeInfo.description && book.volumeInfo.description.substring(0, 200)}{book.volumeInfo.description && book.volumeInfo.description.length > 250 && "..."}</p>
                 <div className='flex gap-3'>
                   <button className='w-fit bg-yellow-300 text-darkblue-sub font-bold px-3 py-2 rounded-md' onClick={() => handleShowDetail(book.id)}>Check the detail</button>
                   <button className='w-fit bg-lightgreen text-darkblue-sub font-bold px-3 py-2 rounded-md'>Register</button>
@@ -111,7 +106,7 @@ const Explore: React.FC = () => {
           ))) : (
             <div className='flex flex-col items-center'>
               <p className='text-[40px] text-white text-bold font-SpaceMono'>No Books, No Life♭</p>
-              <img src="/reading-book.png" alt="reading-book" className='w-[400px]' />
+              <img src="/shiba-inu.png" alt="reading-book" className='w-[400px]' />
             </div>
           )}
           {loading && <CircularProgress className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' />}
