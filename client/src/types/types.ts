@@ -19,7 +19,7 @@ export type Book = {
   }
 }
 
-export type detailContent = {
+export type DetailContent = {
   volumeInfo: {
     title: string,
     authors: string[],

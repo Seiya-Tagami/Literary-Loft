@@ -1,9 +1,9 @@
 import React from 'react'
-import { detailContent } from '../types/types'
+import { DetailContent } from '../types/types'
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const DetailModal: React.FC<detailContent> = ({ volumeInfo, setShowDetail }) => {
+const DetailModal: React.FC<DetailContent> = ({ volumeInfo, setShowDetail }) => {
   return (
     <>
       <div className='w-[700px] px-8 py-10 border-l-4 border-lightgreen absolute top-1/2 left-1/2 bg-darkblue-main -translate-x-1/2 -translate-y-1/2 rounded-2xl z-50'>
@@ -20,7 +20,7 @@ const DetailModal: React.FC<detailContent> = ({ volumeInfo, setShowDetail }) => 
               <CloseIcon />
             </button>
           </div>
-          <div className='h-[360px] overflow-y-auto'>
+          <div className='h-[360px] overflow-y-auto scrollbar scrollbar-thumb-slate-400 scrollbar-track-slate-700'>
             <p className='text-gray-400'>
               {volumeInfo.description && volumeInfo.description}
             </p>
