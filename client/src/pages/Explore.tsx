@@ -29,7 +29,32 @@ const Explore: React.FC = () => {
     setShowDetail(true)
   }
 
-  const handleSearch = (e: React.MouseEvent) => {
+  const fetchGoogleBooksData = async () => {
+    setLoading(true)
+
+    const titleQuery = `intitle:${searchRef.current?.value}`
+    const authorQuery = `inauthor:${searchRef.current?.value}`
+    const freeWordQuery = `${searchRef.current?.value}`
+
+    const endpointURL = `https://www.googleapis.com/books/v1/volumes?q=
+    ${searchMethod === "title" ? titleQuery :
+        searchMethod === "author" ? authorQuery :
+          freeWordQuery}&maxResults=10&startIndex=${pageNum}`
+
+    const res = await fetch(endpointURL);
+    const json = await res.json();
+
+    if (json.items) {
+      setBooks(json.items)
+    } else {
+      setBooks([])
+    }
+
+    setLoading(false)
+  }
+
+  // click時に検索
+  const onClickSearch = (e: React.MouseEvent) => {
     e.preventDefault()
 
     // validation
@@ -38,30 +63,34 @@ const Explore: React.FC = () => {
       return
     }
 
-    const fetchGoogleBooksData = async () => {
-      setLoading(true)
+    fetchGoogleBooksData()
+  }
 
-      const titleQuery = `intitle:${searchRef.current?.value}`
-      const authorQuery = `inauthor:${searchRef.current?.value}`
-      const freeWordQuery = `${searchRef.current?.value}`
+  // enterで検索
+  const onEnterSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
 
-      const endpointURL = `https://www.googleapis.com/books/v1/volumes?q=
-      ${searchMethod === "title" ? titleQuery :
-          searchMethod === "author" ? authorQuery :
-            freeWordQuery}&maxResults=15&startIndex=${pageNum}`
-
-      const res = await fetch(endpointURL);
-      const json = await res.json();
-
-      if (json.items) {
-        setBooks(json.items)
-      } else {
-        setBooks([])
+    if (e.code == "Enter") {
+      // validation
+      if (searchRef.current?.value.length === 0) {
+        alert('文字を入力してください')
+        return
       }
 
-      setLoading(false)
+      e.preventDefault()
+      fetchGoogleBooksData()
     }
 
+  }
+
+  const goToPrevPage = () => {
+    setPageNum((prev) => prev - 10)
+    setBooks([])
+    fetchGoogleBooksData()
+  }
+
+  const goToNextPage = () => {
+    setPageNum((prev) => prev + 10)
+    setBooks([])
     fetchGoogleBooksData()
   }
 
@@ -85,21 +114,29 @@ const Explore: React.FC = () => {
           </div>
           <div className='flex flex-col gap-6'>
             <div className='flex justify-between'>
-              <span className='text-[24px] text-white'>{searchMethod === "title" ? "Book title" : searchMethod === "author" ? "Author" : "Free word"}</span>
-              <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={searchRef} />
+              <span className='text-[24px] text-white font-SpaceMono'>{searchMethod === "title" ? "Book title" : searchMethod === "author" ? "Author" : "Free word"}</span>
+              <input type="text" className='rounded px-2 py-1 focus:outline-none bg-green-100' ref={searchRef} onKeyDown={onEnterSearch} />
             </div>
           </div>
           <button
             type='button'
             className='text-darkblue-main bg-white w-fit mx-auto text-[32px] px-3 py-2 font-bold'
-            onClick={(e) => handleSearch(e)}
+            onClick={onClickSearch}
           >
             Search</button>
         </form>
         <div className={`w-[660px] h-[720px] px-4 py-10 flex flex-col gap-10 overflow-y-auto scrollbar scrollbar-thumb-slate-400 scrollbar-track-slate-700 ${!books.length && 'justify-center'} relative`}>
-          {books.length ? (books.map(book => (
-            <SearchedBook book={book} handleShowDetail={handleShowDetail} />
-          ))) : (
+          {books.length ? (
+            <>
+              {books.map(book => (
+                <SearchedBook book={book} handleShowDetail={handleShowDetail} key={book.id} />
+              ))}
+              <div className='flex gap-8 text-[20px] font-bold'>
+                {pageNum !== 0 && (<button className='bg-slate-400 hover:bg-slate-300 duration-200 p-2 rounded-lg flex-1' onClick={() => goToPrevPage()}>Prev</button>)}
+                <button className='bg-slate-400 hover:bg-slate-300 duration-200 p-2 rounded-lg flex-1' onClick={() => goToNextPage()}>Next</button>
+              </div>
+            </>
+          ) : (
             <div className='flex flex-col items-center'>
               <p className='text-[40px] text-white text-bold font-SpaceMono'>No Books, No Life♭</p>
               <img src="/shiba-inu.png" alt="reading-book" className='w-[400px]' />
